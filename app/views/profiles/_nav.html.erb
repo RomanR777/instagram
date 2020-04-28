@@ -1,0 +1,15 @@
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Posted</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Followed</a>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Likes', view_profile_path(action: 'likes', nickname: @nickname), class: 'nav-link' %>
+  </li>
+  <li class="nav-item">
+    <% link_to 'Create new ' %>
+  </li>
+</ul>

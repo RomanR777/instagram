@@ -1,0 +1,7 @@
+<% if current_user && current_user.id != post.user.id %>
+<%= form_tag('/follows.json', remote: true, method: 'post') do %>
+  <%= hidden_field_tag(:follower_nickname, current_user.nickname) %>
+  <%= hidden_field_tag(:followed_nickname, post.user.nickname) %>
+  <%= submit_tag("Follow", remote: true, class: "btn btn-sm btn-outline-secondary") %>
+<% end %>
+<% end %>
