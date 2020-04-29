@@ -9,9 +9,7 @@ class Post < ApplicationRecord
   scope :by_id, -> (user_id) { where('user_id = ?', user_id )}
   scope :by_nickname, -> (nickname) { joins(:user).where(users: {nickname: nickname})}
   scope :liked, -> (user_id) {
-      select('posts.*', 'users.*', 'likes.user_id').joins(:user)
-      left_outer_joins(:likes).
-      where(user_id: user_id)
+    joins(:likes).where(likes: {user_id: user_id})
   }
   scope :followed, -> (user_id) {
     select('posts.*', 'follows.followable_id', 'follows.follower_id').
