@@ -13,9 +13,9 @@
                 <% if current_user %>
                   <div class="btn-group">
                     <% if current_user.id != post.user.id %>
-                      <%= form_tag('/likes.json', remote: true, method: 'post') do %>
-                        <%= hidden_field_tag(:user_id, current_user.id) %>
-                        <%= hidden_field_tag(:post_id, post.id) %>
+                      <%= form_tag(url_for(controller: 'posts', action: 'like', id: post.id), remote: true, method: 'post') do %>
+                        <% hidden_field_tag(:user_id, current_user.id) %>
+                        <% hidden_field_tag(:post_id, post.id) %>
                         <%= submit_tag("Like", remote: true, class: "btn btn-sm btn-outline-secondary") %>
                       <% end %>
                       <%= form_tag('/follows.json', remote: true, method: 'post') do %>
