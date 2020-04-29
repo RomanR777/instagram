@@ -8,9 +8,11 @@ class Post < ApplicationRecord
 
   scope :by_id, -> (user_id) { where('user_id = ?', user_id )}
   scope :by_nickname, -> (nickname) { joins(:user).where(users: {nickname: nickname})}
+  scope :by_nickname_count, -> (nickname) { by_nickname(nickname).count }
   scope :liked, -> (user_id) {
     joins(:likes).where(likes: {user_id: user_id})
   }
+  scope :liked_count, -> (user_id) { liked(user_id).count}
 
   scope :followed, -> (user_id) {
     select('posts.*',
@@ -20,7 +22,7 @@ class Post < ApplicationRecord
     joins('left outer join follows on posts.user_id = follows.followable_id').
         where('follows.follower_id = ?', user_id)
   }
-  scope :recent_followed_and_all, -> (user_id, offset: 0, limit: 5) {
+  scope :recent_followed_and_all, -> (user_id, limit: 5, offset: 0) {
     followed_sql = recent_followed(user_id).to_sql
     all_other_sql = Post.select('posts.*',
                                 "'-1'", # ignore
@@ -32,12 +34,26 @@ class Post < ApplicationRecord
                    LIMIT #{limit} OFFSET #{offset}"
     find_by_sql(result_sql)
   }
-
+  scope :followed_count, -> (user_id) {followed(user_id).count('posts.id')}
   scope :recent_followed, -> (user_id) { followed(user_id).where(created_at: 1.days.ago..Time.now)}
   scope :recent_followed_count, -> (user_id) { recent_followed(user_id).count('posts.id') }
   scope :recent_followed_all_count, -> (user_id) { recent_followed_and_all(user_id).count }
 
   def self.feed(user_id, page: 0, per_page: 5)
-    recent_followed_count(user_id) ? recent_followed_and_all(user_id) : Post.all
+    page = page - 1 < 0 ? 0 : page - 1
+    offset = page * per_page
+    if recent_followed_count(user_id)
+      recent_followed_and_all(user_id, limit: per_page, offset: offset)
+    else
+      Post.all.limit(per_page).offset(offset)
+    end
   end
+
+  def self.entries_count(user_id)
+    all_count = Post.all.count
+    followed_count = user_id.nil? ? 0 : recent_followed_count(user_id)
+    return all_count + followed_count
+  end
+
+
 end
