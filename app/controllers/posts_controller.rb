@@ -30,11 +30,19 @@ class PostsController < ApplicationController
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
+        ActionCable.server.broadcast "feed_channel",
+                                     content: get_channel_message
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def get_channel_message
+    message = {'user_id': current_user.id,
+               'nickname': current_user.nickname,
+               'description': @post.description}
   end
 
   # PATCH/PUT /posts/1
