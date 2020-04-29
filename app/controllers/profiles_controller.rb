@@ -7,23 +7,26 @@ class ProfilesController < ApplicationController
 
   # GET /profiles
   def index
-    @posts = Post.by_nickname(current_user.nickname)
+    paginate(Post.by_nickname_count(@nickname))
+    @posts = Post.by_nickname(@nickname)
   end
 
   # GET /profiles/:nickname
   def view
-    nickname = params[:nickname]
-    @posts = Post.by_nickname(nickname)
+    paginate(Post.by_nickname_count(@nickname))
+    @posts = Post.by_nickname(@nickname)
   end
 
   def likes
     user = User.find_by(nickname: @nickname)
+    paginate(Post.liked_count(@nickname))
     @posts = Post.liked(user.id)
   end
 
   def follows
-    nickname = params[:nickname]
-    user = User.find_by(nickname: nickname)
+
+    user = User.find_by(nickname: @nickname)
+    paginate(Post.followed_count(@nickname))
     @posts = Post.followed(user.id)
   end
 end
