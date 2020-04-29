@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :comments
   resources :posts
-  devise_for :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :likes
+  resources :follows
+  get '/profiles/:nickname(/:action)', controller: 'profiles', action: 'view', as: 'view_profile'
+  get '/profiles', controller: 'profiles', action: 'index'
   root 'main#index'
 end

@@ -1,0 +1,68 @@
+<div class="album py-5 bg-light">
+  <div class="container-fluid">
+    <% @posts.each do |post| %>
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img width="100%" height="100%" src="<%= url_for(post.photo) %>"/>
+            <div class="card-body">
+              <p class="card-text">
+                <%= post.description %>
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <% if current_user %>
+                  <div class="btn-group">
+                    <% if current_user.id != post.user.id %>
+                      <%= form_tag('/likes.json', remote: true, method: 'post') do %>
+                        <%= hidden_field_tag(:user_id, current_user.id) %>
+                        <%= hidden_field_tag(:post_id, post.id) %>
+                        <%= submit_tag("Like", remote: true, class: "btn btn-sm btn-outline-secondary") %>
+                      <% end %>
+                      <%= form_tag('/follows.json', remote: true, method: 'post') do %>
+                        <%= hidden_field_tag(:follower_nickname, current_user.nickname) %>
+                        <%= hidden_field_tag(:followed_nickname, post.user.nickname) %>
+                        <%= submit_tag("Follow", remote: true, class: "btn btn-sm btn-outline-secondary") %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <button onclick="window.location.href='/users/sign_up'" class="btn btn-sm btn-outline-secondary">Like</button>
+                  <button onclick="window.location.href='/users/sign_up'" class="btn btn-sm btn-outline-secondary">Follow</button>
+                <% end %>
+
+                <small class="text-muted" data-follow-by-nickname="<%= post.user.nickname %>">
+                  Authored by : <%= link_to post.user.nickname, view_profile_path(:nickname => post.user.nickname) %>
+                </small>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted" data-like-by-id="<%= post.id %>">
+                  <%= "Created at : #{post.created_at }" %>
+                </small>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'like' %>
+<%= javascript_pack_tag 'follow' %>

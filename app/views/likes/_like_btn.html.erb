@@ -1,0 +1,5 @@
+<%= form_tag('/likes.json', remote: true, method: 'post') do %>
+    <%= hidden_field_tag(:user_id, post.user.id) %>
+    <%= hidden_field_tag(:post_id, post.id) %>
+    <%= submit_tag("Like", remote: true, class: "btn btn-sm btn-outline-secondary") %>
+<% end %>
