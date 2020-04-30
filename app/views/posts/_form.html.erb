@@ -11,14 +11,14 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :photo %>
-    <%= form.file_field :photo %>
+    <%= form.file_field :photo, class: "form-control-file" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :description %>
-    <%= form.text_field :description %>
+    <%= form.text_area :description, class: "form-control" %>
   </div>
 
   <div class="actions">
