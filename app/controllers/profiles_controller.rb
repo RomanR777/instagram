@@ -24,9 +24,8 @@ class ProfilesController < ApplicationController
   end
 
   def follows
-
     user = User.find_by(nickname: @nickname)
-    paginate(Post.followed_count(@nickname))
-    @posts = Post.followed(user.id)
+    @follows = user.all_following
+    paginate(@follows.count)
   end
 end
