@@ -1,75 +1,31 @@
 class FollowsController < ApplicationController
-  before_action :set_follow, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
-  # GET /follows
-  # GET /follows.json
-  def index
-    @follows = Follow.all
-  end
-
-  # GET /follows/1
-  # GET /follows/1.json
   def show
+    @user = User.find(params[:id])
+
+    @following_count = @user.follow_count
+    @follower_count = @user.followers_count
+
+    @followings = @user.all_following
+    @followers = @user.followers
   end
 
-  # GET /follows/new
-  def new
-    @follow = Follow.new
-  end
-
-  # GET /follows/1/edit
-  def edit
-  end
-
-  # POST /follows
-  # POST /follows.json
   def create
-    followed = User.find_by(nickname: follow_params['followed_nickname'])
-    follower = User.find_by(nickname: follow_params['follower_nickname'])
-    @follow = follower.follow(followed)
+    user = User.find(current_user.id)
+    followed_user = User.find(params[:id])
+    user.follow(followed_user)
     respond_to do |format|
-      if @follow
-        format.html { redirect_to @follow, notice: 'Follow was successfully created.' }
-        format.json { render :show, status: :created, location: @follow }
-      else
-        format.html { render :new }
-        format.json { render json: @follow.errors, status: :unprocessable_entity }
-      end
+      format.js
     end
   end
 
-  # PATCH/PUT /follows/1
-  # PATCH/PUT /follows/1.json
-  def update
-    respond_to do |format|
-      if @follow.update(follow_params)
-        format.html { redirect_to @follow, notice: 'Follow was successfully updated.' }
-        format.json { render :show, status: :ok, location: @follow }
-      else
-        format.html { render :edit }
-        format.json { render json: @follow.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /follows/1
-  # DELETE /follows/1.json
   def destroy
-    @follow.destroy
+    user = User.find(current_user.id)
+    followed_user = User.find(params[:id])
+    user.stop_following(followed_user)
     respond_to do |format|
-      format.html { redirect_to follows_url, notice: 'Follow was successfully destroyed.' }
-      format.json { head :no_content }
+      format.js
     end
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_follow
-      @follow = Follow.find(params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def follow_params
-      params.permit(:follower_nickname, :followed_nickname).to_h
-    end
 end

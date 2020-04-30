@@ -59,6 +59,4 @@ class Post < ApplicationRecord
         " posts.description LIKE ? or users.nickname LIKE ? ",
         "%#{keyword}%", "%#{keyword}%")
   end
-
-
 end
