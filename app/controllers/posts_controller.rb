@@ -80,6 +80,14 @@ class PostsController < ApplicationController
     current_like.delete if current_like
   end
 
+  # get /posts/search?q=...
+  def search
+    @posts = Post.search(params[:q])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post

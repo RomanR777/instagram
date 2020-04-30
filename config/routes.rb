@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :posts do
     post 'like', on: :member
     delete 'dislike', on: :member
+    get 'search', on: :collection
   end
   resources :follows
   get '/profiles/:nickname(/:action)', controller: 'profiles', action: 'view', as: 'view_profile'

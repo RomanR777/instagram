@@ -5,7 +5,6 @@ class Post < ApplicationRecord
   has_many :comments
 
   default_scope { order created_at: :desc }
-
   scope :by_id, -> (user_id) { where('user_id = ?', user_id )}
   scope :by_nickname, -> (nickname) { joins(:user).where(users: {nickname: nickname})}
   scope :by_nickname_count, -> (nickname) { by_nickname(nickname).count }
@@ -53,6 +52,12 @@ class Post < ApplicationRecord
     all_count = Post.all.count
     followed_count = user_id.nil? ? 0 : recent_followed_count(user_id)
     return all_count + followed_count
+  end
+
+  def self.search(keyword)
+    Post.joins(:user).where(
+        " posts.description LIKE ? or users.nickname LIKE ? ",
+        "%#{keyword}%", "%#{keyword}%")
   end
 
 
