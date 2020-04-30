@@ -14,6 +14,7 @@ consumer.subscriptions.create("FeedChannel", {
       // Called when there's incoming data on the websocket for this channel
       console.log("Recieving:")
       console.log(data.content)
+      $.get('/posts/' + data.content['post_id'] + '/followee');
    }
 
 });
