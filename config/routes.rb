@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :comments
   resources :posts do
+    get 'followee', on: :member
     post 'like', on: :member
     delete 'dislike', on: :member
     get 'search', on: :collection

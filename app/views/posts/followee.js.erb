@@ -1,0 +1,3 @@
+<% if !@post.nil? %>
+$('#post-entries-container').prepend(`<%= render @post %>`);
+<% end %>

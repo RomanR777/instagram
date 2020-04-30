@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :dislike]
+  before_action :set_post, only: [:show, :edit, :update,
+                                  :destroy, :like, :dislike, :followee]
 
   # GET /posts
   # GET /posts.json
@@ -41,8 +42,7 @@ class PostsController < ApplicationController
 
   def get_channel_message
     message = {'user_id': current_user.id,
-               'nickname': current_user.nickname,
-               'description': @post.description}
+               'post_id': @post.id}
   end
 
   # PATCH/PUT /posts/1
@@ -88,21 +88,23 @@ class PostsController < ApplicationController
     end
   end
 
+  # get /posts/:id/followee
+  def followee
+    return @post = nil if current_user.nil?
+    @post = current_user.follow(@post.user) ? @post : nil
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = current_user.posts.find(params[:id])
+      @post = Post.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:description, :photo)
     end
-
-
-
-  def dislike
-    current_like = @post.likes.find_by(user_id: current_user.id)
-    current_like.delete if current_like
-  end
 end
