@@ -30,6 +30,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem 'active_record_union'
+gem 'font_awesome5_rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
