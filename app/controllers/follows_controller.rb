@@ -13,8 +13,8 @@ class FollowsController < ApplicationController
 
   def create
     user = User.find(current_user.id)
-    followed_user = User.find(params[:id])
-    user.follow(followed_user)
+    @followed_user = User.find(params[:id])
+    user.follow(@followed_user)
     respond_to do |format|
       format.js
     end
