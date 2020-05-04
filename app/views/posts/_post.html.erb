@@ -10,21 +10,36 @@
           <% if current_user %>
             <div class="btn-group">
               <% if current_user.id != post.user.id %>
+
                 <%= form_tag(url_for(controller: 'posts', action: 'like', id: post.id), remote: true, method: 'put') do %>
-                  <% hidden_field_tag(:user_id, current_user.id) %>
-                  <% hidden_field_tag(:post_id, post.id) %>
-                  <%= submit_tag("Like", remote: true, class: "btn btn-sm btn-outline-secondary") %>
+                  <%= button_tag(type: 'submit', remote: true) do %>
+                    <span id="post-like-icon-<%= post.id %>" class="<%= current_user.likes?(post) ? 'fas fa-heart' : 'far fa-heart' %>">
+                    </span>
+                  <% end %>
                 <% end %>
+
                 <%= form_tag(url_for(controller: 'follows', action: 'create', id: post.user.id), remote: true, method: 'post') do %>
                   <%= hidden_field_tag(:follower_nickname, current_user.nickname) %>
                   <%= hidden_field_tag(:followed_nickname, post.user.nickname) %>
-                  <%= submit_tag("Follow", remote: true, class: "btn btn-sm btn-outline-secondary") %>
+
+                  <%= button_tag(type: 'submit', remote: true) do %>
+                    <span data-post-user-id="<%= post.user.id %>"
+                          class="<%= current_user.following?(post.user) ? 'fas fa-user-check' : 'fas fa-user-plus' %>">
+                    </span>
+                  <% end %>
+
                 <% end %>
               <% end %>
             </div>
           <% else %>
-            <button onclick="window.location.href='/users/sign_up'" class="btn btn-sm btn-outline-secondary">Like</button>
-            <button onclick="window.location.href='/users/sign_up'" class="btn btn-sm btn-outline-secondary">Follow</button>
+            <div class="btn-group">
+              <button onclick="window.location.href='/users/sign_up'" class="btn btn-sm btn-outline-secondary">
+                <span class="far fa-heart"></span>
+              </button>
+              <button onclick="window.location.href='/users/sign_up'" class="btn btn-sm btn-outline-secondary">
+                <span class="fas fa-user-plus"></span>
+              </button>
+            </div>
           <% end %>
 
           <small class="text-muted" data-follow-by-nickname="<%= post.user.nickname %>">

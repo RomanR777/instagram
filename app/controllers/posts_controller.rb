@@ -72,8 +72,11 @@ class PostsController < ApplicationController
 
   # PUT /post/1/like
   def like
-    post = Post.find(params[:id])
-    like = post.likes.find_or_create_by(user_id: current_user.id)
+    @post = Post.find(params[:id])
+    like = @post.likes.find_or_create_by(user_id: current_user.id)
+    respond_to do |format|
+      format.js
+    end
   end
 
   # DELETE /posts/1/dislike
@@ -81,6 +84,9 @@ class PostsController < ApplicationController
     post = Post.find(params[:id])
     current_like = post.likes.find_by(user_id: current_ser.id)
     current_like.delete if current_like
+    respond_to do |format|
+      format.js
+    end
   end
 
   # get /posts/search?q=...
