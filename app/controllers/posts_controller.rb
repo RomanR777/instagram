@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update,
                                   :destroy, :followee]
@@ -29,7 +31,7 @@ class PostsController < ApplicationController
     @post.photo.attach(post_params[:photo])
     respond_to do |format|
       if @post.save
-        format.html { redirect_to profiles_path, notice: 'Post was successfully created.' }
+        format.html { redirect_to profiles_path, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
         ActionCable.server.broadcast "feed_channel",
                                      content: get_channel_message
@@ -42,8 +44,7 @@ class PostsController < ApplicationController
   end
 
   def get_channel_message
-    message = {'user_id': current_user.id,
-               'post_id': @post.id}
+    { 'user_id': current_user.id, 'post_id': @post.id }
   end
 
   # PATCH/PUT /posts/1
@@ -51,7 +52,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        format.html { redirect_to profiles_path, notice: 'Post was successfully updated.' }
+        format.html { redirect_to profiles_path, notice: "Post was successfully updated." }
         format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit }
@@ -65,7 +66,7 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to profiles_path, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to profiles_path, notice: "Post was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -73,7 +74,7 @@ class PostsController < ApplicationController
   # PUT /post/1/like
   def like
     @post = Post.find(params[:id])
-    like = @post.likes.find_or_create_by(user_id: current_user.id)
+    @post.likes.find_or_create_by(user_id: current_user.id)
     respond_to do |format|
       format.js
     end

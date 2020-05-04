@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MainController < ApplicationController
   def index
     user_id = current_user ? current_user.id : nil
