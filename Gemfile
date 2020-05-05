@@ -42,6 +42,8 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rspec-rails', '~> 4.0'
   gem 'factory_bot_rails', '~> 5.2'
+  gem 'capybara', '~> 3.32', '>= 3.32.1'
+
 end
 
 group :development do
@@ -55,10 +57,10 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'database_cleaner', '~> 1.8', '>= 1.8.5'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
