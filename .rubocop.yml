@@ -36,6 +36,8 @@ AllCops:
     - 'bin/**/*'
     - 'bin/{rails,rake}'
     - '**/*.jbuilder'
+    - 'Gemfile'
+    - 'Rakefile'
 
 Performance:
   Exclude:
