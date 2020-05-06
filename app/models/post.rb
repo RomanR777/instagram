@@ -6,6 +6,8 @@ class Post < ApplicationRecord
   has_many :likes
   has_many :comments
 
+  validates :description, presence: true
+
   default_scope { order created_at: :desc }
   scope :by_id, ->(user_id) { where("user_id = ?", user_id) }
   scope :by_nickname, ->(nickname) { joins(:user).where(users: { nickname: nickname }) }
