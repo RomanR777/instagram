@@ -6,7 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :nickname, length: { minimum: 4, maximum: 32 }, presence: true
+  validates :nickname, length: { minimum: 4, maximum: 32 }, presence: true, uniqueness: true
+  validates :email, uniqueness: true
 
   after_create :create_profile
   def create_profile
