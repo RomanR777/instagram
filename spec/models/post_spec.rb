@@ -71,7 +71,6 @@ RSpec.describe Post, type: :model do
       @user1.follow(@user2)
       create(:post, user: @user3, description: "Post by user3")
       create(:post, user: @user2, description: "Post by followed user")
-
       posts = Post.recent_followed_and_all(@user1.id)
       expect(posts[0].description).to eq("Post by followed user")
       # TODO: exclude duplicated posts for followed users
@@ -79,12 +78,12 @@ RSpec.describe Post, type: :model do
       expect(posts[2].description).to eq("Post by user3")
     end
 
-    # it "get post count of followed users" do
-    #   count_before = Post.followed_count(@user1.id)
-    #   create(:post, user: @user2)
-    #   count_after = Post.followed_count(@user1.id)
-    #   expect(count_after - count_before).to eq(1)
-    # end
+    it "get post count of followed users" do
+      count_before = Post.followed_count(@user1.id)
+      create(:post, user: @user2)
+      count_after = Post.followed_count(@user1.id)
+      expect(count_after - count_before).to eq(1)
+    end
 
   end
 end
