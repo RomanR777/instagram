@@ -9,11 +9,9 @@ class Post < ApplicationRecord
   validates :description, presence: true
 
   default_scope { order created_at: :desc }
-  scope :by_id, ->(user_id) { where("user_id = ?", user_id) }
+
   scope :by_nickname, ->(nickname) { joins(:user).where(users: { nickname: nickname }) }
-  scope :by_nickname_count, ->(nickname) { by_nickname(nickname).count }
   scope :liked, ->(user_id) { joins(:likes).where(likes: { user_id: user_id }) }
-  scope :liked_count, ->(user_id) { liked(user_id).count }
 
   scope :followed, ->(user_id) {
     select("posts.*",

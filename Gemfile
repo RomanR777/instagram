@@ -43,7 +43,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0'
   gem 'factory_bot_rails', '~> 5.2'
   gem 'capybara', '~> 3.32', '>= 3.32.1'
-
+  gem 'ffaker', '~> 2.14.0'
 end
 
 group :development do

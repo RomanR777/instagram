@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :post do
     user
-    description { "The description" }
+    description { FFaker::Lorem.sentence }
   end
 
   factory :like do
