@@ -21,6 +21,10 @@ class Post < ApplicationRecord
     joins("left outer join follows on posts.user_id = follows.followable_id").
         where("follows.follower_id = ?", user_id)
   }
+  scope :followed_count, ->(user_id) { followed(user_id).count("posts.id") }
+  scope :recent_followed, ->(user_id) { followed(user_id).where(created_at: 1.days.ago..Time.now) }
+  scope :recent_followed_count, ->(user_id) { recent_followed(user_id).count("posts.id") }
+
   scope :recent_followed_and_all, ->(user_id, limit: 5, offset: 0) {
     followed_sql = recent_followed(user_id).to_sql
     all_other_sql = Post.select("posts.*",
@@ -33,9 +37,6 @@ class Post < ApplicationRecord
                    LIMIT #{limit} OFFSET #{offset}"
     find_by_sql(result_sql)
   }
-  scope :followed_count, ->(user_id) { followed(user_id).count("posts.id") }
-  scope :recent_followed, ->(user_id) { followed(user_id).where(created_at: 1.days.ago..Time.now) }
-  scope :recent_followed_count, ->(user_id) { recent_followed(user_id).count("posts.id") }
   scope :recent_followed_all_count, ->(user_id) { recent_followed_and_all(user_id).count }
 
   def self.feed(user_id, page: 0, per_page: 5)

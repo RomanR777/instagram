@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Post, type: :model do
   context "validation" do
     let(:post) { build :post }
-    let(:not_valid) { build :post, description: nil}
+    let(:not_valid) { build :post, description: nil }
 
     it "valid" do
       expect(post).to be_valid
@@ -14,9 +14,9 @@ RSpec.describe Post, type: :model do
     end
   end
 
-  context "post scopes" do
+  context "posts filtering" do
     let(:user) { create :user }
-    let(:user2) { create :user}
+    let(:user2) { create :user }
 
     it "get posts by user nickname" do
       post = create(:post, user: user)
@@ -30,32 +30,74 @@ RSpec.describe Post, type: :model do
       posts = Post.liked(user2.id)
       expect(posts).to eq([post])
     end
+  end
+
+  context "followed" do
+    let(:user) { create :user }
+    let(:user2) { create :user }
+    let!(:follow) { user.follow(user2) }
 
     it "get posts of followed users by user_id" do
-      user.follow(user2)
       post = create(:post, user: user2)
       posts = Post.followed(user.id)
       expect(posts).to eq([post])
     end
 
-  #
-  #   it "posts of followed users will be first" do
-  #     @user1.follow(@user2)
-  #     post1 = create(:post, user: @user3, description: "Post by user3")
-  #     post2 = create(:post, user: @user2, description: "Post by followed user")
-  #     posts = Post.recent_followed_and_all(@user1.id)
-  #     expect(posts[0].description).to eq("Post by followed user")
-  #     TODO: exclude duplicated posts for followed users
-  #     posts[1] - will be the save as post[0] !!!
-      # expect(posts[2].description).to eq("Post by user3")
-    # end
-    #
-    # it "get post count of followed users" do
-    #   count_before = Post.followed_count(@user1.id)
-    #   create(:post, user: @user2)
-    #   count_after = Post.followed_count(@user1.id)
-    #   expect(count_after - count_before).to eq(1)
-    # end
+    it "count posts of followed users by user_id" do
+      create(:post, user: user2)
+      followed_count = Post.followed_count(user.id)
+      expect(followed_count).to eq(1)
+    end
 
+    it "get recent posts of followed users" do
+      recent_post = create(:post, user: user2, created_at: DateTime.now)
+      old_post = create(:post, user: user2, created_at: DateTime.now - 2.days)
+      posts = Post.recent_followed(user.id)
+      expect(posts).to eq([recent_post])
+    end
+
+    it "get recent posts count of followed users" do
+      create(:post, user: user2, created_at: DateTime.now)
+      create(:post, user: user2, created_at: DateTime.now - 2.days)
+      recent_post_count = Post.recent_followed_count(user.id)
+      expect(recent_post_count).to eq(1)
+    end
+  end
+
+  context "feed, the trash is began" do
+    before(:all) do
+      Follow.delete_all
+      Post.delete_all
+      User.delete_all
+      @user1 = User.create(nickname: FFaker::Internet.user_name,
+                           email: FFaker::Internet.email,
+                           password: FFaker::Internet.password)
+
+      @user2 = User.create(nickname: FFaker::Internet.user_name,
+                           email: FFaker::Internet.email,
+                           password: FFaker::Internet.password)
+
+      @user3 = User.create(nickname: FFaker::Internet.user_name,
+                           email: FFaker::Internet.email,
+                           password: FFaker::Internet.password)
+
+      @user1.follow(@user2)
+      @recent_followed_post = Post.create(description: FFaker::Lorem.sentence,
+                                          user: @user2)
+      @old_followed_post = Post.create(description: FFaker::Lorem.sentence,
+                                       user: @user2,
+                                       created_at: DateTime.now() - 2.days)
+
+      @not_followed_post = Post.create(description: FFaker::Lorem.sentence,
+                                       user: @user3)
+    end
+
+    it "Post#recent_followed_and_all" do
+      posts = Post.recent_followed_and_all(@user1.id)
+      expect(posts[0]).to eq(@recent_followed_post)
+      expect(posts[1]).to eq(@not_followed_post)
+      expect(posts[2]).to eq(@recent_followed_post)
+      expect(posts[3]).to eq(@old_followed_post)
+    end
   end
 end
