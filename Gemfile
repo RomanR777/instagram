@@ -44,6 +44,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 5.2'
   gem 'capybara', '~> 3.32', '>= 3.32.1'
   gem 'ffaker', '~> 2.14.0'
+  gem 'rails-controller-testing', '~> 1.0', '>= 1.0.4'
 end
 
 group :development do
