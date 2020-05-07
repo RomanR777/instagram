@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
+  before_action :authenticate_user!, only: [:create, :edit, :destroy, :new,
+                                            :like, :dislike]
   before_action :set_post, only: [:show, :edit, :update,
                                   :destroy, :followee]
 
