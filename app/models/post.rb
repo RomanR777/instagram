@@ -42,7 +42,7 @@ class Post < ApplicationRecord
   def self.feed(user_id, page: 0, per_page: 5)
     page = page - 1 < 0 ? 0 : page - 1
     offset = page * per_page
-    if recent_followed_count(user_id)
+    if recent_followed_count(user_id) > 0
       recent_followed_and_all(user_id, limit: per_page, offset: offset)
     else
       Post.all.limit(per_page).offset(offset)
