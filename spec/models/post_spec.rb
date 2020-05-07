@@ -37,26 +37,26 @@ RSpec.describe Post, type: :model do
     let(:user2) { create :user }
     let!(:follow) { user.follow(user2) }
 
-    it "get posts of followed users by user_id" do
+    it "get all posts from follow" do
       post = create(:post, user: user2)
       posts = Post.followed(user.id)
       expect(posts).to eq([post])
     end
 
-    it "count posts of followed users by user_id" do
+    it "count all posts from follow" do
       create(:post, user: user2)
       followed_count = Post.followed_count(user.id)
       expect(followed_count).to eq(1)
     end
 
-    it "get recent posts of followed users" do
+    it "get recent posts from follow" do
       recent_post = create(:post, user: user2, created_at: DateTime.now)
       old_post = create(:post, user: user2, created_at: DateTime.now - 2.days)
       posts = Post.recent_followed(user.id)
       expect(posts).to eq([recent_post])
     end
 
-    it "get recent posts count of followed users" do
+    it "count recent posts from follow" do
       create(:post, user: user2, created_at: DateTime.now)
       create(:post, user: user2, created_at: DateTime.now - 2.days)
       recent_post_count = Post.recent_followed_count(user.id)
@@ -64,7 +64,7 @@ RSpec.describe Post, type: :model do
     end
   end
 
-  context "feed, the trash is began" do
+  context "feed" do
     before(:all) do
       Follow.delete_all
       Post.delete_all
