@@ -69,8 +69,8 @@ RSpec.describe Post, type: :model do
       user1, user2, user3 = create(:user), create(:user), create(:user)
       user1.follow(user2)
       recent_followed_post = create(:post, user: user2)
-      old_followed_post = create(:post, user: user2, created_at: DateTime.now() - 2.days)
-      not_followed_post = create(:post)
+      old_followed_post = create(:post, user: user2, created_at: 2.days.ago)
+      not_followed_post = create(:post, user: user3)
       expectation = [recent_followed_post, not_followed_post,
                      recent_followed_post, old_followed_post]
       posts = Post.recent_followed_and_all(user1.id)
