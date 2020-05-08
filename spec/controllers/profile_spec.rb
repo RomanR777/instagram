@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe ProfilesController, :type => :controller do
+  render_views
 
   context "no data" do
     let!(:user) { create :user}

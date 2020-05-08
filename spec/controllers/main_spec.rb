@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe MainController, :type => :controller do
+  render_views
+
   include ControllerMacros
 
   context "not logged in, no data" do

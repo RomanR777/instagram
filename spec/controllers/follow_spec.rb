@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe FollowsController, :type => :controller do
+  render_views
+
   include ControllerMacros
 
   context "user follows user2" do
