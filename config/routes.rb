@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   # profiles
   get '/profiles/:nickname(/:action)', controller: 'profiles', action: 'view', as: 'view_profile'
-  get '/profiles', controller: 'profiles', action: 'index'
 
   #followings
   get '/follows/:id', to: 'follows#show', as: 'follows'

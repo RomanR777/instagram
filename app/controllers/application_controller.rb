@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    profiles_path
+    view_profile_path(current_user.nickname)
   end
 
   def paginate(total_entries, per_page: 5, paginator_width: 5)
