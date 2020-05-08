@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
     end
 
     it "has unique nickname" do
-      user2 = build(:user, nickname: 'user1')
+      user2 = build(:user, nickname: @user1.nickname)
       expect(user2).to_not be_valid
     end
 

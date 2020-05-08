@@ -43,7 +43,7 @@ RSpec.describe MainController, :type => :controller do
     let!(:follow) { user.follow(user2) }
 
     let!(:recent_followed_post) { create :post, user: user2}
-    let!(:followed_old_post) { create :post, user: user2, created_at: DateTime.now() - 2.days }
+    let!(:followed_old_post) { create :post, user: user2, created_at: 2.days.ago }
 
     it "has a 200 status code" do
       get :index

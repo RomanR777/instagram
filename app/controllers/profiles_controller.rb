@@ -4,25 +4,20 @@ class ProfilesController < ApplicationController
   before_action :set_nickname
 
   def set_nickname
-    @nickname = params.key?(:nickname) ? params[:nickname] : current_user.nickname
-  end
-
-  # GET /profiles
-  def index
-    paginate(Post.by_nickname(@nickname).count)
-    @posts = Post.by_nickname(@nickname)
+    @nickname = params[:nickname]
+    @user = User.find_by(nickname: @nickname) or raise ActiveRecord::RecordNotFound
   end
 
   # GET /profiles/:nickname
   def view
-    paginate(Post.by_nickname(@nickname).count)
     @posts = Post.by_nickname(@nickname)
+    paginate(Post.by_nickname(@nickname).count)
   end
 
   def likes
     user = User.find_by(nickname: @nickname)
-    paginate(Post.liked(user.id).count)
     @posts = Post.liked(user.id)
+    paginate(Post.liked(user.id).count)
   end
 
   def follows

@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:nickname, :first_name, :last_name])
   end
 
+  def after_sign_in_path_for(resource)
+    view_profile_path(current_user.nickname)
+  end
+
   def paginate(total_entries, per_page: 5, paginator_width: 5)
     # TODO: move all paginator related code to helper module or base controller
     @paginated = false
