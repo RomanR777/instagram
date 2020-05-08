@@ -4,8 +4,8 @@ RSpec.describe PostsController, :type => :controller do
   include ControllerMacros
 
   context "not logged in user can't:" do
-    let(:params) { { params: { id: 1 } } }
-    let(:redirect_url) { "/users/sign_in" }
+    let!(:params) { { params: { id: 1 } } }
+    let!(:redirect_url) { "/users/sign_in" }
 
     it "#new" do
       get :new
@@ -34,10 +34,10 @@ RSpec.describe PostsController, :type => :controller do
   end
 
   context "search posts by keyword in user nickname or description" do
-    let(:user) { create :user, nickname: "root" }
+    let!(:user) { create :user, nickname: "root" }
     let!(:match_in_nickname) { create :post, user: user, description: "some description" }
 
-    let(:user2) { create :user, nickname: "user" }
+    let!(:user2) { create :user, nickname: "user" }
     let!(:match_in_desc) { create :post, user: user2, description: "The root in desc" }
 
     let!(:posts) { create_list(:post, 12, user: user2)}
@@ -65,11 +65,11 @@ RSpec.describe PostsController, :type => :controller do
   end
 
   context "user like post" do
-    let(:user) { create :user }
-    let(:user2) { create :user }
-    let(:post) { create :post, user: user2}
+    let!(:user) { create :user }
+    let!(:user2) { create :user }
+    let!(:post) { create :post, user: user2}
     let!(:login) { login_user user}
-    let(:params) { {id: post.id }  }
+    let!(:params) { {id: post.id }  }
 
     it "has 200 status" do
       put :like, params: params, format: :js, xhr: true

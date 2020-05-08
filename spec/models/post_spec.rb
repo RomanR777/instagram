@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Post, type: :model do
   context "validation" do
-    let(:post) { build :post }
-    let(:not_valid) { build :post, description: nil }
+    let!(:post) { build :post }
+    let!(:not_valid) { build :post, description: nil }
 
     it "valid" do
       expect(post).to be_valid
@@ -15,8 +15,8 @@ RSpec.describe Post, type: :model do
   end
 
   context "posts filtering" do
-    let(:user) { create :user }
-    let(:user2) { create :user }
+    let!(:user) { create :user }
+    let!(:user2) { create :user }
 
     it "get posts by user nickname" do
       post = create(:post, user: user)
@@ -33,8 +33,8 @@ RSpec.describe Post, type: :model do
   end
 
   context "followed" do
-    let(:user) { create :user }
-    let(:user2) { create :user }
+    let!(:user) { create :user }
+    let!(:user2) { create :user }
     let!(:follow) { user.follow(user2) }
 
     it "get all posts from follow" do

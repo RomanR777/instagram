@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe ProfilesController, :type => :controller do
 
   context "no data" do
-    let(:user) { create :user}
-    let(:params) { { params: { nickname: user.nickname } } }
+    let!(:user) { create :user}
+    let!(:params) { { params: { nickname: user.nickname } } }
 
     it ".view has 200 status" do
       get :view, params
@@ -38,13 +38,13 @@ RSpec.describe ProfilesController, :type => :controller do
   end
 
   context "with data" do
-    let(:user) { create :user}
-    let(:user2) { create :user}
-    let(:user_posts) { create_list :post, 33, user: user }
+    let!(:user) { create :user}
+    let!(:user2) { create :user}
+    let!(:user_posts) { create_list :post, 33, user: user }
     let!(:follow) { user.follow(user2) }
-    let(:user2_posts) { create_list :post, 11, user: user2 }
+    let!(:user2_posts) { create_list :post, 11, user: user2 }
     let!(:user_liked) { user2_posts[0, 5].each { |post| create(:like, post: post, user: user) } }
-    let(:params) { { params: { nickname: user.nickname } } }
+    let!(:params) { { params: { nickname: user.nickname } } }
 
     it ".view assign user posts" do
       get :view, params

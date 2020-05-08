@@ -4,8 +4,8 @@ RSpec.describe FollowsController, :type => :controller do
   include ControllerMacros
 
   context "user follows user2" do
-    let(:user) { create :user }
-    let(:user2) { create :user }
+    let!(:user) { create :user }
+    let!(:user2) { create :user }
     let!(:user_login) { login_user user }
 
     it ".create has status 200" do

@@ -16,8 +16,8 @@ RSpec.describe MainController, :type => :controller do
   end
 
   context "not logged in and have data" do
-    let(:user) { create :user }
-    let(:posts) { create_list(:post, 23, user: user) }
+    let!(:user) { create :user }
+    let!(:posts) { create_list(:post, 23, user: user) }
 
     it "has a 200 status code" do
       get :index
@@ -36,10 +36,10 @@ RSpec.describe MainController, :type => :controller do
   end
 
   context "logged in and followed posts appears first" do
-    let(:user) { create :user }
+    let!(:user) { create :user }
     let!(:login) { login_user user}
 
-    let(:user2) { create :user }
+    let!(:user2) { create :user }
     let!(:follow) { user.follow(user2) }
 
     let!(:recent_followed_post) { create :post, user: user2}
