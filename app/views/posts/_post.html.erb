@@ -12,7 +12,7 @@
               <% if current_user.id != post.user.id %>
 
                 <%= form_tag(url_for(controller: 'posts', action: 'like', id: post.id), remote: true, method: 'put') do %>
-                  <%= button_tag(type: 'submit', remote: true) do %>
+                  <%= button_tag(type: 'submit', remote: true, id: "post-like-#{ post.id }") do %>
                     <span id="post-like-icon-<%= post.id %>" class="<%= current_user.likes?(post) ? 'fas fa-heart' : 'far fa-heart' %>">
                     </span>
                   <% end %>
@@ -22,7 +22,7 @@
                   <%= hidden_field_tag(:follower_nickname, current_user.nickname) %>
                   <%= hidden_field_tag(:followed_nickname, post.user.nickname) %>
 
-                  <%= button_tag(type: 'submit', remote: true) do %>
+                  <%= button_tag(type: 'submit', remote: true, id: "user-post-follow-#{post.user.id}#{post.id}") do %>
                     <span data-post-user-id="<%= post.user.id %>"
                           class="<%= current_user.following?(post.user) ? 'fas fa-user-check' : 'fas fa-user-plus' %>">
                     </span>

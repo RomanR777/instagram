@@ -14,6 +14,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.filter_run_when_matching :focus
   config.before(:all)  { FFaker::Random.seed=config.seed }
   config.before(:each) { FFaker::Random.reset! }
   # rspec-expectations config goes here. You can use an alternate

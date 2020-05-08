@@ -33,7 +33,8 @@ class PostsController < ApplicationController
     @post.photo.attach(post_params[:photo])
     respond_to do |format|
       if @post.save
-        format.html { redirect_to profiles_path, notice: "Post was successfully created." }
+        format.html { redirect_to view_profile_path(action: 'view', nickname: current_user.nickname),
+                                  notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
         ActionCable.server.broadcast "feed_channel",
                                      content: get_channel_message
