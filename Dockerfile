@@ -15,5 +15,11 @@ RUN bundle install
 
 ADD . $APP_HOME
 RUN yarn install --check-files
+
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
 CMD ["rails","server","-b","0.0.0.0"]
-RUN RAILS_ENV=production SECRET_KEY_BASE=$SECRET_KEY_BASE bundle exec rake assets:precompile
+
+RUN RAILS_ENV=production bundle exec rake assets:precompile
