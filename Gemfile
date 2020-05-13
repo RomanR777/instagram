@@ -31,8 +31,12 @@ gem 'devise'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+gem 'sidekiq', '~> 6.0', '>= 6.0.7'
+gem 'sidekiq-cron', '~> 1.2'
+
 gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem 'active_record_union'
+
 gem 'font-awesome-sass', '~> 5.12.0'
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
