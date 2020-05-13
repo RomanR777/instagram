@@ -1,0 +1,4 @@
+MYSQL_DATABASE=instagram_development
+MYSQL_USER=developer
+MYSQL_PASSWORD=developer
+MYSQL_ROOT_PASSWORD=root

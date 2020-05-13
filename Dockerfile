@@ -1,24 +1,20 @@
 FROM ruby:2.6.3
 
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends apt-transport-https
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update -qq && apt-get install -y build-essential nodejs yarn
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" / | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends nodejs yarn
 
 ENV APP_HOME /app
-RUN mkdir $APP_HOME
-WORKDIR $APP_HOME
+ENV BUNDLE_PATH /gems
 
-RUN gem install bundler:2.1.2
+RUN mkdir $APP_HOME
 COPY Gemfile* $APP_HOME/
-RUN bundle config set without 'development test'
+WORKDIR $APP_HOME
 RUN bundle install
 
 COPY . $APP_HOME/
 
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-
-CMD ["rails","server","-b","0.0.0.0"]
-
-RUN RAILS_ENV=production bundle exec rake assets:precompile
+CMD ["bin/rails","server","-b","0.0.0.0"]
