@@ -9,12 +9,11 @@ RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
 RUN gem install bundler:2.1.2
-ADD Gemfile* $APP_HOME/
+COPY Gemfile* $APP_HOME/
 RUN bundle config set without 'development test'
 RUN bundle install
 
-ADD . $APP_HOME
-RUN yarn install --check-files
+COPY . $APP_HOME/
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
