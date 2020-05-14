@@ -34,19 +34,25 @@ RSpec.describe User, type: :model do
   context "user has liked posts" do
     let!(:user3) { create :user }
     let!(:user4) { create :user }
+    let!(:user5) { create :user }
+
     let!(:user3_posts) { create_list :post, 6, user: user3 }
     let!(:user4_posts) { create_list :post, 3, user: user4 }
+    let!(:user5_posts) { create_list :post, 3, user: user5 }
 
     let!(:user3_likes) { user3_posts.map { |post| create :like, post: post, user: user4 } }
     let!(:user4_likes) { user4_posts[0, 2].map { |post| create :like, post: post, user: user3 } }
 
     it "count user likes" do
-      user3.get_user_likes_count do |user, count|
+      User.likes_count_per_user do |user, count|
         if user == user3
           expect(count).to eq(6)
         end
         if user == user4
           expect(count).to eq(2)
+        end
+        if user == user5
+          expect(count).to eq(0)
         end
       end
     end

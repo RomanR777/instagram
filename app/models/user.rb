@@ -27,7 +27,7 @@ class User < ApplicationRecord
     !self.likes.find_by(post: post).nil?
   end
 
-  def get_user_likes_count
+  def self.likes_count_per_user
     User.find_each(batch_size: 1) do |user|
       yield user, Like.joins(:post).where(posts: { user: user }).count
     end
