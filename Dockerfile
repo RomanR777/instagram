@@ -8,11 +8,10 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" / | tee /etc/apt/sourc
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends nodejs yarn
 
 ENV APP_HOME /app
-ENV BUNDLE_PATH /gems
-
 RUN mkdir $APP_HOME
 COPY Gemfile* $APP_HOME/
 WORKDIR $APP_HOME
+
 RUN bundle install
 
 COPY . $APP_HOME/

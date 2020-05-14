@@ -10,14 +10,15 @@ services:
     tty: true
     volumes:
       - .:/app
-      - gem_cache:/gems
     links:
       - db
       - redis
+      - smtp
     env_file:
       - .env/development/web
       - .env/development/database
       - .env/development/redis
+      - .env/development/smtp
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpacker_dev_server
 
@@ -36,8 +37,6 @@ services:
 
   selenium_chrome:
     image: selenium/standalone-chrome-debug
-#    logging:
-#      driver: none
     ports:
     - "5901:5900"
 
@@ -54,7 +53,12 @@ services:
 
   redis:
     image: library/redis:alpine
+  
+  smtp:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
 volumes:
   db_data:
-  gem_cache:
