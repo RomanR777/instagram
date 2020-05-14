@@ -1,0 +1,60 @@
+version: "3.3"
+
+services:
+  web:
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    tty: true
+    volumes:
+      - .:/app
+      - gem_cache:/gems
+    links:
+      - db
+      - redis
+    env_file:
+      - .env/development/web
+      - .env/development/database
+      - .env/development/redis
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpacker_dev_server
+
+  webpacker_dev_server:
+    build: .
+    command: ./bin/webpack-dev-server
+    ports:
+      - "3035:3035"
+    volumes:
+      - .:/app
+    env_file:
+      - .env/development/web
+      - .env/development/database
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+
+  selenium_chrome:
+    image: selenium/standalone-chrome-debug
+#    logging:
+#      driver: none
+    ports:
+    - "5901:5900"
+
+  db:
+    image: mysql:8
+    command: [--default-authentication-plugin=mysql_native_password]
+    restart: always
+    ports:
+      - "13306:3306"
+    volumes:
+    - db_data:/var/lib/mysql
+    env_file:
+      - .env/development/database
+
+  redis:
+    image: library/redis:alpine
+
+volumes:
+  db_data:
+  gem_cache:

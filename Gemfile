@@ -7,7 +7,9 @@ ruby '2.6.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 # Use mysql as the database for Active Record
-gem 'mysql2', '>= 0.4.4'
+gem 'mysql2', '>= 0.5.3'
+# User redis for active cable
+gem 'redis', '~> 4.1', '>= 4.1.4'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
@@ -29,8 +31,12 @@ gem 'devise'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+gem 'sidekiq', '~> 6.0', '>= 6.0.7'
+gem 'sidekiq-cron', '~> 1.2'
+
 gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem 'active_record_union'
+
 gem 'font-awesome-sass', '~> 5.12.0'
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
