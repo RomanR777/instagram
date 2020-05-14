@@ -11,7 +11,7 @@
             <div class="btn-group">
               <% if current_user.id != post.user.id %>
 
-                <%= form_tag(url_for(controller: 'posts', action: 'like', id: post.id), remote: true, authenticity_token: false, method: 'put') do %>
+                <%= form_tag(url_for(controller: 'posts', action: 'like', id: post.id), remote: true, authenticity_token: true, method: 'put') do %>
                   <%= button_tag(type: 'submit', remote: true, id: "post-like-#{ post.id }") do %>
                     <span id="post-like-icon-<%= post.id %>" class="<%= current_user.likes?(post) ? 'fas fa-heart' : 'far fa-heart' %>">
                     </span>
