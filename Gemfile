@@ -33,6 +33,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'sidekiq', '~> 6.0', '>= 6.0.7'
 gem 'sidekiq-cron', '~> 1.2'
+gem 'actionview-encoded_mail_to'
 
 gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem 'active_record_union'
