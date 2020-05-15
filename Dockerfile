@@ -16,4 +16,4 @@ RUN bundle install
 
 COPY . $APP_HOME/
 
-CMD ["bin/rails","server","-b","0.0.0.0"]
+# CMD ["bin/rails","server","-b","0.0.0.0"]

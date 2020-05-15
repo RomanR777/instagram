@@ -67,4 +67,5 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = { :address => ENV.fetch("SMTP_HOST") { "localhost" }, 
                                          :port => ENV.fetch("SMTP_PORT") { 1025 } }
   
+  config.webpacker.check_yarn_integrity = false
 end
