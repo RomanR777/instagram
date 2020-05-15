@@ -3,6 +3,8 @@ version: "3.3"
 services:
   web:
     build: .
+    entrypoint: /app/docker-entrypoint.sh
+    command: ["rails", "server", "-b", "0.0.0.0"]
     restart: always
     ports:
       - "3000:3000"
@@ -14,15 +16,14 @@ services:
       - db
       - redis
       - smtp
+      - webpacker
     env_file:
       - .env/development/web
       - .env/development/database
       - .env/development/redis
       - .env/development/smtp
-    environment:
-      - WEBPACKER_DEV_SERVER_HOST=webpacker_dev_server
 
-  webpacker_dev_server:
+  webpacker:
     build: .
     command: ./bin/webpack-dev-server
     ports:
@@ -32,8 +33,6 @@ services:
     env_file:
       - .env/development/web
       - .env/development/database
-    environment:
-      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
 
   selenium_chrome:
     image: selenium/standalone-chrome-debug
