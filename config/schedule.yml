@@ -1,3 +1,3 @@
 like_statistic_mailer_job:
-    cron: "*/1 * * * *" #it will retrieve data every 1 minute
+    cron:  <%= ENV.fetch("LIKE_STAT_SCHEDULE") { "* 0 * * 1" } %> #it will retrieve data every 1 minute "*/1 * * * *"
     class: "LikeStatWorker"
