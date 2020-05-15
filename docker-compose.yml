@@ -23,6 +23,21 @@ services:
       - .env/development/redis
       - .env/development/smtp
 
+  sidekiq:
+    depends_on:
+      - db
+      - redis
+      - smtp
+    build: .
+    command: sidekiq
+    volumes:
+      - '.:/app'
+    env_file:
+      - .env/development/web
+      - .env/development/database
+      - .env/development/redis
+      - .env/development/smtp
+
   webpacker:
     build: .
     command: ./bin/webpack-dev-server
