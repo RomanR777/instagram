@@ -4,13 +4,13 @@
   <div class="row">
     <div class="col-md-4 offset-md-4">
       <div class="row">
-      <div class="col">
-        <span>Nickname: <%= link_to follow.nickname, view_profile_path %></span>
+        <div class="col">
+          <span>Nickname: <%= link_to follow.nickname, view_profile_path %></span>
+        </div>
+        <div class="col">
+          <span>Posts count: <%= follow.posts.count %></span>
+        </div>
       </div>
-      <div class="col">
-           <span>Posts count: <%= follow.posts.count %></span>
-      </div>
-    </div>
     </div>
   </div>
 <% end %>
