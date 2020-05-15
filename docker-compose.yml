@@ -37,6 +37,7 @@ services:
       - .env/development/database
       - .env/development/redis
       - .env/development/smtp
+      - .env/development/schedule
 
   webpacker:
     build: .
