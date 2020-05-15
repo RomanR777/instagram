@@ -3,14 +3,3 @@
     <%= render @posts %>
   </div>
 </div>
-
-<% if !@posts.empty? %>
-<div class="row">
-  <div class="col-md-4 offset-md-4">
-    <nav aria-label="Page navigation example">
-      <%= render 'posts/paginator' %>
-    </nav>
-  </div>
-</div>
-<% end %>
-

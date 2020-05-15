@@ -1,2 +1,14 @@
 <%= render 'profiles/nav' %>
-<%= render 'posts/list' %>
+
+<div class="album py-5 bg-light">
+  <div id="post-entries-container" class="container-fluid">
+    <%= render @posts %>
+
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <%= paginate @posts, theme: 'twitter-bootstrap-4' %>
+        </div>
+    </div>
+    
+  </div>
+</div>
