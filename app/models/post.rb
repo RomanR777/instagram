@@ -39,13 +39,11 @@ class Post < ApplicationRecord
   }
   scope :recent_followed_all_count, ->(user_id) { recent_followed_and_all(user_id).count }
 
-  def self.feed(user_id, page: 0, per_page: 5)
-    page = page - 1 < 0 ? 0 : page - 1
-    offset = page * per_page
+  def self.feed(user_id, offset: 0, limit: 5)
     if recent_followed_count(user_id) > 0
-      recent_followed_and_all(user_id, limit: per_page, offset: offset)
+      recent_followed_and_all(user_id, limit: limit, offset: offset)
     else
-      Post.all.limit(per_page).offset(offset)
+      Post.all.limit(limit).offset(offset)
     end
   end
 
