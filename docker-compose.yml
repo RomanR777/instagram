@@ -22,6 +22,7 @@ services:
       - .env/development/database
       - .env/development/redis
       - .env/development/smtp
+      - .env/development/mongodb
 
   sidekiq:
     depends_on:
@@ -38,6 +39,7 @@ services:
       - .env/development/redis
       - .env/development/smtp
       - .env/development/schedule
+      - .env/development/mongodb
 
   webpacker:
     build: .
@@ -65,6 +67,16 @@ services:
     - db_data:/var/lib/mysql
     env_file:
       - .env/development/database
+  
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - mongodb_data:/data/db
+    env_file:
+      - .env/development/mongodb
 
   redis:
     image: library/redis:alpine
@@ -77,3 +89,4 @@ services:
 
 volumes:
   db_data:
+  mongodb_data:

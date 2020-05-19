@@ -1,1 +1,1 @@
-LIKE_STAT_SCHEDULE="*/2 * * * *"
+LIKE_STAT_SCHEDULE="0 0 * * 1"
