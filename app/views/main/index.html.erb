@@ -1,4 +1,12 @@
-<div id="feed">
-  <%= render 'posts/list' %>
-</div>
+<div class="album py-5 bg-light">
+  <div id="post-entries-container" class="container-fluid">
+    <%= render @posts %>
 
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <%= render 'main/paginator'%>
+        </div>
+    </div>
+    
+  </div>
+</div>
