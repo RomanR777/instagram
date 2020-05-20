@@ -68,4 +68,6 @@ Rails.application.configure do
                                          :port => ENV.fetch("SMTP_PORT") { 1025 } }
   
   config.webpacker.check_yarn_integrity = false
+
+  config.web_console.whitelisted_ips = %w( 0.0.0.0/0 ::/0 )
 end
